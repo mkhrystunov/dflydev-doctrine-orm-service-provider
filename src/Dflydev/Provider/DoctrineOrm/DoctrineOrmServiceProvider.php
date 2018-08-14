@@ -23,6 +23,8 @@ use Doctrine\Common\Cache\RedisCache;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Cache\CacheConfiguration;
+use Doctrine\ORM\Cache\DefaultCacheFactory;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\DefaultEntityListenerResolver;
@@ -217,6 +219,15 @@ class DoctrineOrmServiceProvider implements ServiceProviderInterface
             $config->setQueryCacheImpl($container['orm.cache.locator']($name, 'query', $options));
             $config->setResultCacheImpl($container['orm.cache.locator']($name, 'result', $options));
             $config->setHydrationCacheImpl($container['orm.cache.locator']($name, 'hydration', $options));
+            if (isset($options['second_level_cache']['enabled']) && $options['second_level_cache']['enabled'] === true) {
+                if (!isset($options['second_level_cache']['factory'])) {
+                    throw new \Exception('Please provide cache factory service key to enable second level cache');
+                }
+                $config->setSecondLevelCacheEnabled(true);
+                $secondLevelCacheConfig = new CacheConfiguration();
+                $secondLevelCacheConfig->setCacheFactory($container[$options['second_level_cache']['factory']]);
+                $config->setSecondLevelCacheConfiguration($secondLevelCacheConfig);
+            }
         });
 
         $container['orm.cache.locator'] = $container->protect(function ($name, $cacheName, $options) use ($container) {

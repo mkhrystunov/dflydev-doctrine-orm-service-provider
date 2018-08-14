@@ -1,8 +1,8 @@
 {
-    "name": "dflydev/doctrine-orm-service-provider",
+    "name": "mkhrystunov/dflydev-doctrine-orm-service-provider",
     "description": "Doctrine ORM Service Provider",
     "keywords": ["pimple", "cilex", "silex", "doctrine", "orm"],
-    "homepage": "http://dflydev.com/projects/doctrine-orm-service-provider/",
+    "homepage": "https://github.com/mkhrystunov/dflydev-doctrine-orm-service-provider",
     "license": "MIT",
     "authors": [
         {
@@ -14,12 +14,17 @@
             "name": "Beau Simensen",
             "email": "beau@dflydev.com",
             "homepage": "http://beausimensen.com"
+        },
+        {
+            "name": "Maksym Khrystunov",
+            "email": "mkhrystunov@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.3.3",
         "pimple/pimple": ">=2.1,<4",
-        "doctrine/orm": "~2.3"
+        "doctrine/orm": "~2.3",
+        "phpunit/phpunit": "^5.7"
     },
     "autoload": {
         "psr-4": {
